@@ -1,0 +1,12 @@
+variable aws_region {}
+variable aws_user_profile {}
+variable mongoatlas_private {}
+variable mongoatlas_public {}
+variable mongoatlas_orgid {}
+variable mongoatlas_whitelist {}
+variable mongoatlas_provider {}
+variable mongoatlas_cluster_region {}
+variable mongoatlas_project_name {}
+variable mongoatlas_cluster_name {}
+variable mongoatlas_cluster_tier {}
+variable mongoatlas_user_password {}

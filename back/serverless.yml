@@ -1,0 +1,60 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: minigoodeed
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+plugins:
+  - serverless-reqvalidator-plugin
+  - serverless-dotenv-plugin
+provider:
+  name: aws
+  runtime: nodejs8.10
+  profile: speechless
+# you can overwrite defaults here
+  stage: dev
+  region: ${env:GOODEED_AWS_REGION}
+  role: ${env:GOODEED_AWS_LAMBDA_ROLE}
+
+custom:
+  documentation:
+    api:
+      info:
+        version: '1'
+        title: 'Mini Goodeed API '
+        contact:
+          name: Marc sirisak
+          email: marc.sirisak@gmail.com
+        license:
+          name: Private
+    models: ${file(./documentation/requestsModels.yml)}
+
+package:
+  individually: true
+  exclude:
+   - ".*/**"
+
+functions:
+  db:
+    handler: functions/db/index.handler
+    name: ${self:provider.stage}-db
+    timeout: 10
+    package:
+      exclude:
+        - functions/**
+      include:
+        - 'functions/db/**'
+    environment:
+      MONGO_URI: ${env:MONGO_URI}

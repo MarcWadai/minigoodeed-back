@@ -1,0 +1,14 @@
+*.tfvars
+.terraform/
+node_modules/
+*.tfstate
+*.tfstate.backup
+
+back/.env
+back/node_modules
+
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+package-lock.json

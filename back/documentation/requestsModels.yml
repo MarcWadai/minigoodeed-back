@@ -1,0 +1,240 @@
+-
+  name: EventCreate
+  contentType: "application/json"
+  schema:
+    type: object
+    required: ['category', 'description', 'title', 'location_name', 'lat', 'lng', 'sdate', 'contact', 'author_id']
+    properties:
+      category:
+        type: string
+        enum: ['veganism', 'environment', 'other', 'all', 'recycling', 'social']
+      description:
+        type: string
+      title:
+        type: string
+      fee:
+        type: number
+      location_name:
+        type: string
+      lat:
+        type: number
+      lng:
+        type: number
+      author:
+        type: string
+      sdate:
+        type: number
+      author_id:
+        type: string
+      img:
+        type: string
+      contact: 
+        type: object
+        required: ['email']
+        properties:
+          email: 
+            type: string
+          websites:
+            type: string
+-
+  name: EventCreateResp
+  contentType: "application/json"
+  schema:
+    type: object
+    properties:
+      event_id: 
+        type: string
+      category:
+        type: string
+        enum: ['veganism', 'environment', 'other']
+      description:
+        type: string
+      title:
+        type: string
+      fee:
+        type: number
+      location:
+        type: string
+      lat:
+        type: number
+      lng:
+        type: number
+      timestamp:
+        type: number
+      author:
+        type: string
+      sdate:
+        type: string
+      contact: 
+        type: string
+-
+  name: CommentCreate
+  contentType: "application/json"
+  schema:
+    type: object
+    required: ['event_id', 'user_id', 'message']
+    properties:
+      event_id:
+        type: string
+      user_id:
+        type: string
+      message:
+        type: string
+-
+  name: CommentCreateResp
+  contentType: "application/json"
+  schema:
+    type: object
+    properties:
+      event_id: 
+        type: string
+      user_id: 
+        type: string
+      username: 
+        type: string
+      comment_id:
+        type: string
+      message:
+        type: string
+      timestamp:
+        type: number
+
+-
+  name: ParticipantCreate
+  contentType: "application/json"
+  schema:
+    type: object
+    required: ['event_id']
+    properties:
+      event_id:
+        type: string
+-
+  name: ParticipantCreateResp
+  contentType: "application/json"
+  schema:
+    type: object
+    properties:
+      event_id: 
+        type: string
+      user_id: 
+        type: string
+      timestamp:
+        type: number
+-
+  name: EventDetailResp
+  contentType: "application/json"
+  schema:
+    type: object
+    properties:
+      event_id: 
+        type: string
+      comments: 
+        type: array
+        items: 
+          type: object
+          properties:
+            comment_id: 
+              type: string
+            message:
+              type: string
+            timestamp:
+              type: number
+            user_id:
+              type: string
+      participants:
+        type: array
+        items: 
+          type: object
+          properties:
+            user_id: 
+              type: string
+            timestamp:
+              type: number
+      info:
+        type: object
+        properties: 
+          event_id: 
+            type: string
+          category:
+            type: string
+            enum: ['veganism', 'environment', 'other']
+          description:
+            type: string
+          title:
+            type: string
+          fee:
+            type: number
+          location:
+            type: string
+          lat:
+            type: number
+          lng:
+            type: number
+          timestamp:
+            type: number
+          author:
+            type: string
+          sdate:
+            type: string
+-
+  name: CategoryResp
+  contentType: "application/json"
+  schema:
+    type: array
+    items:
+      type: object
+      properties:
+        category_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+-
+  name: UserInfoResp
+  contentType: "application/json"
+  schema:
+    type: object
+    items:
+      type: object
+      properties:
+        user:
+          type: object
+          properties: 
+            user_id: 
+              type: string
+            username:
+              type: string
+            email: 
+              type: string
+        events:
+          type: array
+          items:
+            type: object
+            properties: 
+              event_id: 
+                type: string
+              category:
+                type: string
+              description:
+                type: string
+              title:
+                type: string
+              fee:
+                type: number
+              location:
+                type: string
+              lat:
+                type: number
+              lng:
+                type: number
+              timestamp:
+                type: number
+              author:
+                type: string
+              sdate:
+                type: string
+              contact: 
+                type: string
+          
+
