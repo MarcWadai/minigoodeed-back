@@ -18,14 +18,18 @@ module.exports.handler = async (event, context, callback) => {
               useUnifiedTopology: true 
             });
           }
+
+        
         const Assos = conn.model('Association', AssociationSchema);
         const Proj = conn.model('Project', ProjectSchema);
-        const Ann = conn.model('Annonceur', ProjectSchema);
-        const AdC = conn.model('AdCampaign', ProjectSchema);
+        const Ann = conn.model('Annonceur', AnnonceurSchema);
+        const AdC = conn.model('AdCampaign', AdCampaignSchema);
         // const Proj = db.model('Project', ProjectSchema);
-    
+        // TODO first frop all collections before inserting new
+        await dropingCollections([Assos, Proj, Ann, AdC]);
+
         //We first need to upload the images from each object to S3 database
-        const [ associationDataWithImg, projDataWithImg, annonceurWithImg, adCampaignImg] = Promise.all([
+        const [associationDataWithImg, projDataWithImg, annonceurWithImg, adCampaignImg] = await Promise.all([
             await processImage(AssociationData),
             await processImage(ProjectData),
             await processImage(AnnonceurData),
@@ -55,6 +59,20 @@ function processImage(arrayObj) {
         return (photosURI.length) ? Promise.resolve({ ...one, logo: logoURI, photos: photosURI }) : Promise.resolve({ ...one, logo: logoURI });
     });
     return Promise.all(arrayPromise);
+}
+
+async function dropingCollections(collections) {
+    for ( let model of collections ) {
+        try {
+          await model.collection.drop();
+        } catch (e) {
+          if (e.code === 26) {
+            console.log('namespace %s not found',model.collection.name)
+          } else {
+            throw e;
+          }
+        }
+      }
 }
 
 // function addIdToDocument(arrayDocs) {
