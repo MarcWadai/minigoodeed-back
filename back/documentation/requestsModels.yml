@@ -1,240 +1,83 @@
 -
-  name: EventCreate
+  name: ProjectGETResp
   contentType: "application/json"
   schema:
     type: object
-    required: ['category', 'description', 'title', 'location_name', 'lat', 'lng', 'sdate', 'contact', 'author_id']
     properties:
-      category:
+      title: 
         type: string
-        enum: ['veganism', 'environment', 'other', 'all', 'recycling', 'social']
+      photos: 
+        type: array
+        items: 
+          type: string
       description:
         type: string
-      title:
+      logo:
         type: string
-      fee:
+      assos_id:
+        type: string
+      donation_goal:
         type: number
-      location_name:
-        type: string
-      lat:
-        type: number
-      lng:
-        type: number
-      author:
-        type: string
-      sdate:
-        type: number
-      author_id:
-        type: string
-      img:
-        type: string
-      contact: 
-        type: object
-        required: ['email']
-        properties:
-          email: 
-            type: string
-          websites:
-            type: string
--
-  name: EventCreateResp
-  contentType: "application/json"
-  schema:
-    type: object
-    properties:
-      event_id: 
-        type: string
-      category:
-        type: string
-        enum: ['veganism', 'environment', 'other']
-      description:
-        type: string
-      title:
-        type: string
-      fee:
-        type: number
-      location:
-        type: string
-      lat:
-        type: number
-      lng:
-        type: number
-      timestamp:
-        type: number
-      author:
-        type: string
-      sdate:
-        type: string
-      contact: 
-        type: string
--
-  name: CommentCreate
-  contentType: "application/json"
-  schema:
-    type: object
-    required: ['event_id', 'user_id', 'message']
-    properties:
-      event_id:
-        type: string
-      user_id:
-        type: string
-      message:
-        type: string
--
-  name: CommentCreateResp
-  contentType: "application/json"
-  schema:
-    type: object
-    properties:
-      event_id: 
-        type: string
-      user_id: 
-        type: string
-      username: 
-        type: string
-      comment_id:
-        type: string
-      message:
-        type: string
-      timestamp:
+      donation_current:
         type: number
 
 -
-  name: ParticipantCreate
-  contentType: "application/json"
-  schema:
-    type: object
-    required: ['event_id']
-    properties:
-      event_id:
-        type: string
--
-  name: ParticipantCreateResp
+  name: AssociationGETResp
   contentType: "application/json"
   schema:
     type: object
     properties:
-      event_id: 
+      name: 
         type: string
-      user_id: 
+      description:
         type: string
-      timestamp:
-        type: number
--
-  name: EventDetailResp
-  contentType: "application/json"
-  schema:
-    type: object
-    properties:
-      event_id: 
+      logo:
         type: string
-      comments: 
-        type: array
-        items: 
-          type: object
-          properties:
-            comment_id: 
-              type: string
-            message:
-              type: string
-            timestamp:
-              type: number
-            user_id:
-              type: string
-      participants:
-        type: array
-        items: 
-          type: object
-          properties:
-            user_id: 
-              type: string
-            timestamp:
-              type: number
-      info:
-        type: object
-        properties: 
-          event_id: 
-            type: string
-          category:
-            type: string
-            enum: ['veganism', 'environment', 'other']
-          description:
-            type: string
-          title:
-            type: string
-          fee:
-            type: number
-          location:
-            type: string
-          lat:
-            type: number
-          lng:
-            type: number
-          timestamp:
-            type: number
-          author:
-            type: string
-          sdate:
-            type: string
--
-  name: CategoryResp
-  contentType: "application/json"
-  schema:
-    type: array
-    items:
-      type: object
-      properties:
-        category_id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
--
-  name: UserInfoResp
-  contentType: "application/json"
-  schema:
-    type: object
-    items:
-      type: object
-      properties:
-        user:
-          type: object
-          properties: 
-            user_id: 
-              type: string
-            username:
-              type: string
-            email: 
-              type: string
-        events:
-          type: array
-          items:
-            type: object
-            properties: 
-              event_id: 
-                type: string
-              category:
-                type: string
-              description:
-                type: string
-              title:
-                type: string
-              fee:
-                type: number
-              location:
-                type: string
-              lat:
-                type: number
-              lng:
-                type: number
-              timestamp:
-                type: number
-              author:
-                type: string
-              sdate:
-                type: string
-              contact: 
-                type: string
-          
 
+-
+  name: AnnonceurGETResp
+  contentType: "application/json"
+  schema:
+    type: object
+    properties:
+      name: 
+        type: string
+      description:
+        type: string
+      logo:
+        type: string
+
+-
+  name: AdCampaignGETResp
+  contentType: "application/json"
+  schema:
+    type: object
+    properties:
+      title: 
+        type: string
+      description:
+        type: string
+      logo:
+        type: string
+      annonceur_id: 
+        type: string
+      redirect_uri: 
+        type: string
+      video_uri: 
+        type: string
+
+-
+  name: DonationRequest
+  contentType: "application/json"
+  required: ['project_id', 'campaign_id']
+  schema:
+    type: object
+    properties:
+      project_id:  
+        type: String
+      campaign_id: 
+        type: String
+      date:   
+        type: String
+      user_id: 
+        type: Strin

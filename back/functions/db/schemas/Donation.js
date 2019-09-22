@@ -3,7 +3,8 @@ const mongoose =  require('mongoose');
 const Schema = mongoose.Schema;
 
 exports.DonationSchema = new Schema({
-  name:  String,
-  description: String,
-  logo:   String,
+  project_id:  String,
+  campaign_id: String,
+  date:   String,
+  user_id: String
 });
