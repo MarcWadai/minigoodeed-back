@@ -2,6 +2,7 @@ const {dbSchema, buildResp} = require('./utils');
 const mongoose = require('mongoose');
 
 let conn = null;
+let Proj = null;
 
 module.exports.handler = async (event, context, callback) => {
     try {
@@ -16,8 +17,8 @@ module.exports.handler = async (event, context, callback) => {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             });
+            Proj = conn.model('Project', dbSchema());
         }
-        const Proj = conn.model('Project', dbSchema());
         const projList = await Proj.find({}).exec();
         console.log('projList', projList);
         callback(null, buildResp(200, projList));

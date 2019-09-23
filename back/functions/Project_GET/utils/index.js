@@ -17,10 +17,11 @@ function buildResp(code, body) {
     return {
         statusCode: code,
         headers: {
-            'X-Requested-With': '*',
+            // 'X-Requested-With': '*',
             'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with',
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,OPTIONS',
+            // 'Access-Control-Allow-Methods': 'GET,OPTIONS',
+            // 'Access-Control-Allow-Credentials': true,
         },
         body: (body instanceof String) ? body : JSON.stringify(body),
     };

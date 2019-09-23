@@ -2,7 +2,7 @@ const {dbSchema, buildResp} = require('./utils');
 const mongoose = require('mongoose');
 
 let conn = null;
-
+let Annonceur = null
 module.exports.handler = async (event, context, callback) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
@@ -16,9 +16,9 @@ module.exports.handler = async (event, context, callback) => {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             });
+            AdCampaign = conn.model('AdCampaign', dbSchema());
         }
-        const Annonceur = conn.model('Annonceur', dbSchema());
-        const annonList = await Annonceur.find({}).exec();
+        const annonList = await AdCampaign.find({}).exec();
         console.log('assosList', annonList);
         callback(null, buildResp(200, assosList));
     } catch (err) {

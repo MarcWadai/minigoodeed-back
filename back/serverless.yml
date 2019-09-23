@@ -59,6 +59,8 @@ functions:
         - 'functions/db/**'
     environment:
       MONGO_URI: ${env:MONGO_URI}
+      GOODEED_AWS_S3_BUCKET: ${env:GOODEED_AWS_S3_BUCKET}
+      GOODEED_AWS_REGION: ${env:GOODEED_AWS_REGION}
 
   Project_GET:
     handler: functions/Project_GET/index.handler
@@ -73,6 +75,7 @@ functions:
           path: Project/
           method: get
           private: true
+          cors: true
           documentation:
             methodResponses:
             -
@@ -93,6 +96,7 @@ functions:
           path: Association/
           method: get
           private: true
+          cors: true
           documentation:
             methodResponses:
             -
@@ -113,6 +117,7 @@ functions:
           path: Annonceur/
           method: get
           private: true
+          cors: true
           documentation:
             methodResponses:
             -
@@ -133,6 +138,7 @@ functions:
           path: AdCampaign/
           method: get
           private: true
+          cors: true
           documentation:
             methodResponses:
             -
@@ -143,19 +149,40 @@ functions:
 
   verify-token:
     handler: Auth/Authorizer.auth
+    package: 
+      exclude:
+        - functions/**
+      include:
+        - 'functions/Auth/**'
+    environment:
+      MONGO_URI: ${env:MONGO_URI}
 
   login:
     handler: auth/AuthHandler.login
+    package: 
+      exclude:
+        - functions/**
+      include:
+        - 'functions/Auth/**'
+    environment:
+      MONGO_URI: ${env:MONGO_URI}
     events:
       - http:
-          path: auth/login
+          path: login
           method: post
           cors: true
 
   register:
     handler: auth/AuthHandler.register
+    package: 
+      exclude:
+        - functions/**
+      include:
+        - 'functions/Auth/**'
+    environment:
+      MONGO_URI: ${env:MONGO_URI}
     events:
       - http:
-          path: auth/register
+          path: register
           method: post
           cors: true

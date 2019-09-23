@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 exports.ProjectsSchema = new Schema({
   title:  String,
   assos_id: String,
-  descrition: String,
+  description: String,
   logo: String,
   photos: [String],
   donation_goal: Number,

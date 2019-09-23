@@ -1,6 +1,6 @@
 provider "aws" {
-  profile    = "${var.aws_user_profile}"
-  region     = "${var.aws_region}"
+  profile = "${var.aws_user_profile}"
+  region  = "${var.aws_region}"
 }
 
 terraform {
@@ -41,8 +41,29 @@ resource "aws_s3_bucket" "goodeed-bucket" {
   bucket = "goodeed-bucket"
 }
 
-resource "aws_s3_bucket_public_access_block" "goodeed-bucket" {
+# resource "aws_s3_bucket_public_access_block" "goodeed-bucket" {
+#   bucket = "${aws_s3_bucket.goodeed-bucket.id}"
+#   block_public_acls   = false
+#   block_public_policy = false
+# }
+
+resource "aws_s3_bucket_policy" "goodeed-bucket" {
   bucket = "${aws_s3_bucket.goodeed-bucket.id}"
-  block_public_acls   = true
-  block_public_policy = true
+
+  policy = <<POLICY
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::goodeed-bucket/*"
+        }
+    ]
+}
+POLICY
 }

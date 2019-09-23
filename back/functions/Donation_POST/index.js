@@ -2,6 +2,7 @@ const {dbSchema, buildResp} = require('./utils');
 const mongoose = require('mongoose');
 
 let conn = null;
+let Donation = null;
 
 module.exports.handler = async (event, context, callback) => {
     try {
@@ -16,8 +17,9 @@ module.exports.handler = async (event, context, callback) => {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             });
+            Donation = conn.model('Donation', dbSchema());
         }
-        const Donation = conn.model('Donation', dbSchema());
+        
         const don = await Donation.insert();
         console.log('assosList', don);
         callback(null, buildResp(200, don));
