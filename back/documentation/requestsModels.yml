@@ -69,7 +69,6 @@
 -
   name: DonationRequest
   contentType: "application/json"
-  required: ['project_id', 'campaign_id']
   schema:
     type: object
     properties:
@@ -80,4 +79,4 @@
       date:   
         type: String
       user_id: 
-        type: Strin
+        type: String

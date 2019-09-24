@@ -2,10 +2,11 @@ const {dbSchema, buildResp} = require('./utils');
 const mongoose = require('mongoose');
 
 let conn = null;
-let Proj = null;
+let Assos = null;
 
 module.exports.handler = async (event, context, callback) => {
     try {
+        const { assosId } = { ...event.pathParameters };
         context.callbackWaitsForEmptyEventLoop = false;
         if (conn == null) {
             conn = await mongoose.createConnection(process.env.MONGO_URI, {
@@ -17,15 +18,13 @@ module.exports.handler = async (event, context, callback) => {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             });
-            Proj = conn.model('Project', dbSchema());
+            Assos = conn.model('Association', dbSchema());
         }
-        const projList = await Proj.find({}).exec();
-        console.log('projList', projList);
-        callback(null, buildResp(200, projList));
+        const assos = await Assos.findById(assosId).exec();
+        console.log('assos', assos);
+        callback(null, buildResp(200, assos));
     } catch (err) {
         console.error(err);
         callback(buildResp(500, err));
     }
 };
-
-

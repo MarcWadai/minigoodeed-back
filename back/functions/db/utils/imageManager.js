@@ -22,7 +22,7 @@ function uploadImg(objectId, encodedImage) {
                 console.error(err);
                 resolve('default.png');
             } else {
-                resolve(filePath);
+                resolve(_addS3URI(filePath));
             }
         });
     });
@@ -31,12 +31,16 @@ function uploadImg(objectId, encodedImage) {
 async function multipleUploadImg(arrayObj) {
     try {
         const arrayPromise = arrayObj.map(one => uploadImg(one.objectId, one.encodedImage));
-        const arrayRes = await Promise.all(arrayPromise);    
+        const arrayRes = await Promise.all(arrayPromise);
         return Promise.resolve(arrayRes);
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         return Promise.resolve([]);
     }
+}
+
+function _addS3URI(uri) {
+    return `https://${process.env.GOODEED_AWS_S3_BUCKET}.s3-${process.env.GOODEED_AWS_REGION}.amazonaws.com/${uri}`;
 }
 
 module.exports = {

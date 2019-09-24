@@ -56,14 +56,11 @@ function processImage(arrayObj) {
         const logoURI = (one.logo) ? await uploadImg(one._id, one.logo) : one.logo;
         const photosURI = (one.photos) ? await multipleUploadImg(one.photos.map(o => { return { objectId: one._id, encodedImage: o } })) : [];
         
-        return (photosURI.length) ? Promise.resolve({ ...one, logo: addS3URI(logoURI), photos: addS3URI(photosURI) }) : Promise.resolve({ ...one, logo: logoURI });
+        return (photosURI.length) ? Promise.resolve({ ...one, logo: logoURI, photos: photosURI }) : Promise.resolve({ ...one, logo: logoURI });
     });
     return Promise.all(arrayPromise);
 }
 
-function addS3URI(uri) {
-  return `https://${process.env.GOODEED_AWS_S3_BUCKET}.s3-${process.env.GOODEED_AWS_REGION}.amazonaws.com/${uri}`;
-}
 async function dropingCollections(collections) {
     for ( let model of collections ) {
         try {
