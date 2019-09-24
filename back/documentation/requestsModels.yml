@@ -73,10 +73,10 @@
     type: object
     properties:
       project_id:  
-        type: String
+        type: string
       campaign_id: 
-        type: String
+        type: string
       date:   
-        type: String
+        type: string
       user_id: 
-        type: String
+        type: string
