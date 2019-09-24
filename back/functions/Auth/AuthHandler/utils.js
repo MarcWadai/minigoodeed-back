@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-
+let isConnected = null;
+let uModel = null;
 
 function connectToDatabase() {
     if (isConnected) {
@@ -20,12 +21,16 @@ function connectToDatabase() {
 
 
 function userModel() {
+    if (uModel) {
+        return uModel;
+    }
     const UserSchema = new mongoose.Schema({
         name: String,
         email: String,
         password: String
     });
-    return mongoose.model('User', UserSchema);
+    uModel= mongoose.model('User', UserSchema)
+    return uModel;
 }
 
 module.exports = {

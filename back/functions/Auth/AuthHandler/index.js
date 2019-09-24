@@ -1,4 +1,4 @@
-const { userModel, connectToDatabase } = require('./utils.js');
+const  { userModel, connectToDatabase } = require('./utils.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs-then');
 
@@ -59,14 +59,7 @@ function checkIfInputIsValid(eventBody) {
   }
 
   if (
-    !(eventBody.name &&
-      eventBody.name.length > 5 &&
-      typeof eventBody.name === 'string')
-  ) return Promise.reject(new Error('Username error. Username needs to longer than 5 characters'));
-
-  if (
-    !(eventBody.email &&
-      typeof eventBody.name === 'string')
+    !(eventBody.email)
   ) return Promise.reject(new Error('Email error. Email must have valid characters.'));
 
   return Promise.resolve();
@@ -75,7 +68,7 @@ function checkIfInputIsValid(eventBody) {
 function register(eventBody) {
   return checkIfInputIsValid(eventBody) // validate input
     .then(() =>
-    userModel.findOne({ email: eventBody.email }) // check if user exists
+    userModel().findOne({ email: eventBody.email }).exec() // check if user exists
     )
     .then(user =>
       user
@@ -83,13 +76,13 @@ function register(eventBody) {
         : bcrypt.hash(eventBody.password, 8) // hash the pass
     )
     .then(hash =>
-      userModel.create({ name: eventBody.name, email: eventBody.email, password: hash }) // create the new user
+      userModel().create({email: eventBody.email, password: hash }) // create the new user
     )
     .then(user => ({ auth: true, token: signToken(user._id) })); // sign the token and send it back
 }
 
 function login(eventBody) {
-  return userModel.findOne({ email: eventBody.email })
+  return userModel().findOne({ email: eventBody.email }).exec()
     .then(user =>
       !user
         ? Promise.reject(new Error('User with that email does not exits.'))

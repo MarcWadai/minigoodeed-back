@@ -43,7 +43,7 @@ custom:
     models: ${file(./documentation/requestsModels.yml)}
 
 package:
-  individually: false
+  individually: true
   excludeDevDependencies: true
   exclude:
    - ".*/**"
@@ -191,24 +191,26 @@ functions:
 
 
   verify-token:
-    handler: Auth/Authorizer.auth
+    handler: functions/Auth/Authorizer/index.auth
     package: 
       exclude:
         - functions/**
       include:
-        - 'functions/Auth/**'
+        - 'functions/Auth/Authorizer/**'
     environment:
       MONGO_URI: ${env:MONGO_URI}
+      JWT_SECRET: ${env:JWT_SECRET}
 
   login:
-    handler: auth/AuthHandler.login
+    handler: functions/Auth/AuthHandler/index.login
     package: 
       exclude:
         - functions/**
       include:
-        - 'functions/Auth/**'
+        - 'functions/Auth/AuthHandler/**'
     environment:
       MONGO_URI: ${env:MONGO_URI}
+      JWT_SECRET: ${env:JWT_SECRET}
     events:
       - http:
           path: login
@@ -216,14 +218,15 @@ functions:
           cors: true
 
   register:
-    handler: auth/AuthHandler.register
+    handler: functions/Auth/AuthHandler/index.register
     package: 
       exclude:
         - functions/**
       include:
-        - 'functions/Auth/**'
+        - 'functions/Auth/AuthHandler/**'
     environment:
       MONGO_URI: ${env:MONGO_URI}
+      JWT_SECRET: ${env:JWT_SECRET}
     events:
       - http:
           path: register
