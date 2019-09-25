@@ -154,7 +154,7 @@ functions:
       exclude:
         - functions/**
       include:
-        - 'functions/Annonceur_GET/**'
+        - 'functions/AdCampaign_GET/**'
     events:
       - http:
           path: AdCampaign/
@@ -180,6 +180,7 @@ functions:
       - http:
           path: Donation/
           method: post
+          authorizer: verify-token
           private: true
           cors: true
           documentation:

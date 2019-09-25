@@ -22,15 +22,19 @@ module.exports.auth = (event, context, callback) => {
 
   // check header or url parameters or post parameters for token
   const token = event.authorizationToken;
-
-  if (!token)
+  console.log('token', token);
+  const onlyToken = token.split(" ")[1];
+  if (!onlyToken)
     return callback(null, 'Unauthorized');
-
   // verifies secret and checks exp
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err)
-      return callback(null, 'Unauthorized');
-
+  jwt.verify(onlyToken, process.env.JWT_SECRET, (err, decoded) => {
+    console.log('decoded', decoded);
+    if (err) {
+      console.error(err);
+      return callback("Unauthorized")
+    }
+    if (!decoded) 
+      return callback("Unauthorized")
     // if everything is good, save to request for use in other routes
     return callback(null, generatePolicy(decoded.id, 'Allow', event.methodArn))
   });

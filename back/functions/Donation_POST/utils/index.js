@@ -1,6 +1,6 @@
 const mongoose =  require('mongoose');
 
-function dbSchema() {
+function schemaDonation() {
     const Schema = mongoose.Schema;
     
     return new Schema({
@@ -12,6 +12,19 @@ function dbSchema() {
     
 }
 
+function schemaProject() {
+    const Schema = mongoose.Schema;
+    return new Schema({
+        title:  String,
+        assos_id: String,
+        descrition: String,
+        logo: String,
+        photos: [String],
+        donation_goal: Number,
+        donation_current: Number,
+    });   
+}
+
 function buildResp(code, body) {
     return {
         statusCode: code,
@@ -20,6 +33,7 @@ function buildResp(code, body) {
 }
 
 module.exports = {
-    dbSchema,
+    schemaProject,
+    schemaDonation,
     buildResp,
 };

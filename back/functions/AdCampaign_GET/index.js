@@ -1,8 +1,8 @@
-const {dbSchema, buildResp} = require('./utils');
+const { dbSchema, buildResp } = require('./utils');
 const mongoose = require('mongoose');
 
 let conn = null;
-let Annonceur = null
+let AdCampaign = null
 module.exports.handler = async (event, context, callback) => {
     try {
         context.callbackWaitsForEmptyEventLoop = false;
@@ -18,9 +18,15 @@ module.exports.handler = async (event, context, callback) => {
             });
             AdCampaign = conn.model('AdCampaign', dbSchema());
         }
-        const annonList = await AdCampaign.find({}).exec();
-        console.log('assosList', annonList);
-        callback(null, buildResp(200, assosList));
+        const count = await AdCampaign.count().exec();
+        console.log('count', count);
+        // Get a random entry
+        const random = Math.floor(Math.random() * count);
+        // Again query all ad but only fetch one offset by our random #
+        console.log('random', random);
+        const ad = await AdCampaign.findOne().skip(random).exec();
+        console.log('ad', ad);
+        callback(null, buildResp(200, ad));
     } catch (err) {
         console.error(err);
         callback(buildResp(500, err));
