@@ -1,4 +1,4 @@
-const  { userModel, connectToDatabase } = require('./utils.js');
+const  { userModel, connectToDatabase, buildResp } = require('./utils.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs-then');
 
@@ -12,10 +12,7 @@ module.exports.login = (event, context) => {
     .then(() =>
       login(JSON.parse(event.body))
     )
-    .then(session => ({
-      statusCode: 200,
-      body: JSON.stringify(session)
-    }))
+    .then(session => (buildResp(200, session)))
     .catch(err => ({
       statusCode: err.statusCode || 500,
       headers: { 'Content-Type': 'text/plain' },
@@ -29,10 +26,7 @@ module.exports.register = (event, context) => {
     .then(() =>
       register(JSON.parse(event.body))
     )
-    .then(session => ({
-      statusCode: 200,
-      body: JSON.stringify(session)
-    }))
+    .then(session => (buildResp(200, session)))
     .catch(err => ({
       statusCode: err.statusCode || 500,
       headers: { 'Content-Type': 'text/plain' },
