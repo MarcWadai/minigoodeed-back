@@ -1,3 +1,5 @@
+Demo site available here : minigoodeed.positiveactions.co
+
 ### Mini goodeed backend
 
 The configuration of the cloud infrastructure is done using Terraform and Serverless framework.
